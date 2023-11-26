@@ -14,7 +14,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
@@ -33,13 +32,9 @@ public class ProductAccessorImpl implements ProductAccessor {
 
   private final ProductMapper productMapper;
 
-  private final Map<StoredFunctionName, SimpleJdbcCall> simpleJdbcCalls;
-
-  public ProductAccessorImpl(NamedParameterJdbcTemplate jdbcTemplate, ObjectMapper objectMapper,
-      Map<StoredFunctionName, SimpleJdbcCall> simpleJdbcCalls) {
+  public ProductAccessorImpl(NamedParameterJdbcTemplate jdbcTemplate, ObjectMapper objectMapper) {
     this.jdbcTemplate = jdbcTemplate;
     this.objectMapper = objectMapper;
-    this.simpleJdbcCalls = simpleJdbcCalls;
     this.productMapper = new ProductMapper(objectMapper);
   }
 
