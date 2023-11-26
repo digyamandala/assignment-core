@@ -9,7 +9,7 @@ spring.datasource.username=root
 spring.datasource.password=root
 ```
 Once you have set the data source appropriately, you will be able to run the java application using IntellJ IDEA (or any text editor)
-or you can run it by using this command inside this repository
+or you can run it by using this command inside this repository from the terminal
 ```agsl
 mvn clean install && java -jar target/assignment-core-0.0.1-SNAPSHOT.jar 
 ```
