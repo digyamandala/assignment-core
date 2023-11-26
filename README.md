@@ -19,3 +19,5 @@ from your local.
 ```agsl
 http://localhost:8080/docs
 ```
+
+Before being able to access the API, you need to execute the SQL DDL queries in the 'schema.sql' file
