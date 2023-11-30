@@ -87,7 +87,7 @@ public class ProductController {
     serviceRequest.setCategory(request.getFilter()
         .getCategory());
     serviceRequest.setTitle(request.getFilter()
-        .getCategory());
+        .getTitle());
     Page<GetProductServiceResponse> serviceResponse = productService.getProducts(serviceRequest);
     List<GetProductWebResponse> items = serviceResponse.getItems()
         .stream()

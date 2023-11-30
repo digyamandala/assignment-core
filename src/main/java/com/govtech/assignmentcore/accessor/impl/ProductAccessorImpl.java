@@ -7,7 +7,6 @@ import com.govtech.assignmentcore.accessor.mapper.ProductMapper;
 import com.govtech.assignmentcore.common.Page;
 import com.govtech.assignmentcore.common.ProductFilterVo;
 import com.govtech.assignmentcore.common.SortProperty;
-import com.govtech.assignmentcore.common.StoredFunctionName;
 import com.govtech.assignmentcore.entity.Product;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DuplicateKeyException;
@@ -19,7 +18,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.sql.Types;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -59,10 +57,10 @@ public class ProductAccessorImpl implements ProductAccessor {
 
   @Override
   public Page<Product> getProducts(ProductFilterVo productFilterVo) {
-    String sql = "SELECT * FROM govtech_procurement_products.products p WHERE (sku = " + getString(
-        productFilterVo.getSku()) + " OR " + getString(productFilterVo.getSku()) + " IS NULL) AND " + "(title = " +
-        getString(productFilterVo.getTitle()) + " OR " + getString(productFilterVo.getTitle()) +
-        " IS NULL) AND (category = " + getString(productFilterVo.getCategory()) + " OR " + getString(
+    String sql = "SELECT * FROM govtech_procurement_products.products p WHERE (sku " + getCondition(
+        productFilterVo.getSku()) + " OR " + getString(productFilterVo.getSku()) + " IS NULL) AND " + "(title " +
+        getCondition(productFilterVo.getTitle()) + " OR " + getString(productFilterVo.getTitle()) +
+        " IS NULL) AND (category " + getCondition(productFilterVo.getCategory()) + " OR " + getString(
         productFilterVo.getCategory()) + " IS NULL) ";
     String orderBy = constructSortBy(productFilterVo);
     String limit = " LIMIT " + productFilterVo.getPagingRequest()
@@ -75,10 +73,10 @@ public class ProductAccessorImpl implements ProductAccessor {
     List<Product> products = jdbcTemplate.queryForStream(query, param, productMapper)
         .collect(Collectors.toList());
 
-    String sqlCount = "SELECT COUNT(*) FROM govtech_procurement_products.products p WHERE (sku = " + getString(
-        productFilterVo.getSku()) + " OR " + getString(productFilterVo.getSku()) + " IS NULL) AND " + "(title = " +
-        getString(productFilterVo.getTitle()) + " OR " + getString(productFilterVo.getTitle()) +
-        " IS NULL) AND (category = " + getString(productFilterVo.getCategory()) + " OR " + getString(
+    String sqlCount = "SELECT COUNT(*) FROM govtech_procurement_products.products p WHERE (sku " + getCondition(
+        productFilterVo.getSku()) + " OR " + getString(productFilterVo.getSku()) + " IS NULL) AND " + "(title " +
+        getCondition(productFilterVo.getTitle()) + " OR " + getString(productFilterVo.getTitle()) +
+        " IS NULL) AND (category " + getCondition(productFilterVo.getCategory()) + " OR " + getString(
         productFilterVo.getCategory()) + " IS NULL) ";
     Long count = jdbcTemplate.queryForObject(sqlCount, param, Long.class);
 
@@ -167,6 +165,10 @@ public class ProductAccessorImpl implements ProductAccessor {
       return sb.toString();
     }
     return "";
+  }
+
+  private String getCondition(String val) {
+    return val == null ? " = null" : "ILIKE " + "'%" + val + "%'";
   }
 
   private String getString(String val) {
