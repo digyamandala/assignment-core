@@ -39,6 +39,15 @@ BEGIN;
     CREATE UNIQUE INDEX idx_sku
     ON govtech_procurement_products.products (sku);
 
+    CREATE UNIQUE INDEX idx_category
+    ON govtech_procurement_products.products (category);
+
+    CREATE UNIQUE INDEX idx_title
+    ON govtech_procurement_products.products (title);
+
+    CREATE INDEX idx_created_date
+    ON govtech_procurement_products.products (created_date);
+
     CREATE INDEX idx_product_id
     ON govtech_procurement_products.product_reviews (product_id);
 

@@ -1,11 +1,10 @@
 package com.govtech.assignmentcore.common;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import java.util.Collections;
 import java.util.List;
-
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PagingRequest {
@@ -44,5 +43,9 @@ public class PagingRequest {
 
   public void setSortBy(List<SortProperty> sortBy) {
     this.sortBy = sortBy;
+  }
+
+  public void setDefaultSortBy() {
+    this.sortBy = Collections.singletonList(new SortProperty("created_date", "desc"));
   }
 }
